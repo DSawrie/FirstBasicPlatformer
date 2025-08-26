@@ -11,14 +11,35 @@ window.onresize = function() {
     height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
-    loop();
+    drawLoop();
 }
-window.onresize();
 
+var objects =[];
+
+for(var i=0; i<32; i++) {
+    new wall(i*32, 400);
+}
+
+
+
+window.onresize();
+Player = new player(50, 50);
 
 function loop() {
+    stepLoop();
+    drawLoop();
+    keyEnd();
+}
+function stepLoop() {
+    for(var i=0; i<objects.length; i++){
+        if(objects[i].step) objects[i].step();
+    }
+}
+function drawLoop() {
     background(25, 25, 25);
-    Player.draw();
+    for(var i=0; i<objects.length; i++){
+        if(objects[i].draw) objects[i].draw();
+    }
 }
 var target_fps = 30;
 setInterval(loop, 1000/target_fps);
